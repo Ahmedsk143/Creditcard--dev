@@ -1,0 +1,51 @@
+<label for="name">
+  <ng-content></ng-content>
+</label>
+<input
+  [formControl]="control"
+  type="text"
+  class="form-control"
+  id="name"
+  [ngClass]="{
+    'is-invalid': control.errors && control.touched,
+    'is-valid': control.valid
+  }"
+  [mask]="mask"
+/>
+
+<ng-container *ngIf="control.errors && control.touched">
+  <div *ngIf="control.errors.required" class="invalid-feedback">
+    Input is Required
+  </div>
+  <div *ngIf="control.errors.minlength" class="invalid-feedback d-inline">
+    The length must be
+    {{
+      control.errors.minlength.requiredLength -
+        control.errors.minlength.actualLength
+    }}
+    more
+  </div>
+  <div *ngIf="control.errors.maxlength" class="invalid-feedback d-inline">
+    The length must be
+    {{
+      control.errors.maxlength.requiredLength -
+        control.errors.maxlength.actualLength
+    }}
+    less
+  </div>
+  <div
+    *ngIf="
+      control.errors.pattern &&
+      (control.errors.minlength || control.errors.maxlength)
+    "
+    class="invalid-feedback d-inline"
+  >
+    and
+  </div>
+  <div *ngIf="control.errors.pattern" class="invalid-feedback d-inline">
+    Numbers only
+  </div>
+  <div *ngIf="control.errors.email" class="invalid-feedback d-inline">
+    Please Enter a valid Email
+  </div>
+</ng-container>
